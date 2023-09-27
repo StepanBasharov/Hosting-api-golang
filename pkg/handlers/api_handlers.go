@@ -4,31 +4,33 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	"vm_stats_api/pkg/repository"
+	"vm_stats_api/pkg/models"
+	"vm_stats_api/pkg/utils"
 )
 
 func HealthCheck(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "OK"})
+	uptime := utils.Uptime()
+	c.JSON(http.StatusOK, gin.H{"status": "UP", "uptime": uptime})
 }
 
 func VirtualMachineList(c *gin.Context) {
-	vms := [5]repository.VirtualMachine{
-		repository.VirtualMachine{Id: 0, Cpu: "RYZEN 5 5600X", Ram: 32, Rom: 1000, Lan: 100, OSystem: "Ubuntu 18 LTS"},
-		repository.VirtualMachine{Id: 1, Cpu: "RYZEN 7 5800X3D", Ram: 64, Rom: 6000, Lan: 1000, OSystem: "Ubuntu 18 LTS"},
-		repository.VirtualMachine{Id: 2, Cpu: "INTEL CORE i5 12600k", Ram: 16, Rom: 1000, Lan: 100, OSystem: "Fedora 19"},
-		repository.VirtualMachine{Id: 3, Cpu: "RYZEN 3 3200u", Ram: 32, Rom: 1000, Lan: 100, OSystem: "CentOS 19"},
-		repository.VirtualMachine{Id: 4, Cpu: "INTEL XEON E5", Ram: 8, Rom: 10000, Lan: 1000, OSystem: "WindowsServer 2016"},
+	vms := [5]models.VirtualMachine{
+		models.VirtualMachine{Id: 0, Cpu: "RYZEN 5 5600X", Ram: 32, Rom: 1000, Lan: 100, OSystem: "Ubuntu 18 LTS"},
+		models.VirtualMachine{Id: 1, Cpu: "RYZEN 7 5800X3D", Ram: 64, Rom: 6000, Lan: 1000, OSystem: "Ubuntu 18 LTS"},
+		models.VirtualMachine{Id: 2, Cpu: "INTEL CORE i5 12600k", Ram: 16, Rom: 1000, Lan: 100, OSystem: "Fedora 19"},
+		models.VirtualMachine{Id: 3, Cpu: "RYZEN 3 3200u", Ram: 32, Rom: 1000, Lan: 100, OSystem: "CentOS 19"},
+		models.VirtualMachine{Id: 4, Cpu: "INTEL XEON E5", Ram: 8, Rom: 10000, Lan: 1000, OSystem: "WindowsServer 2016"},
 	}
 	c.JSON(http.StatusOK, gin.H{"VMs": vms})
 }
 
 func GetVirtualMachineStats(c *gin.Context) {
-	vms := [5]repository.VirtualMachine{
-		repository.VirtualMachine{Id: 0, Cpu: "RYZEN 5 5600X", Ram: 32, Rom: 1000, Lan: 100, OSystem: "Ubuntu 18 LTS"},
-		repository.VirtualMachine{Id: 1, Cpu: "RYZEN 7 5800X3D", Ram: 64, Rom: 6000, Lan: 1000, OSystem: "Ubuntu 18 LTS"},
-		repository.VirtualMachine{Id: 2, Cpu: "INTEL CORE i5 12600k", Ram: 16, Rom: 1000, Lan: 100, OSystem: "Fedora 19"},
-		repository.VirtualMachine{Id: 3, Cpu: "RYZEN 3 3200u", Ram: 32, Rom: 1000, Lan: 100, OSystem: "CentOS 19"},
-		repository.VirtualMachine{Id: 4, Cpu: "INTEL XEON E5", Ram: 8, Rom: 10000, Lan: 1000, OSystem: "WindowsServer 2016"},
+	vms := [5]models.VirtualMachine{
+		models.VirtualMachine{Id: 0, Cpu: "RYZEN 5 5600X", Ram: 32, Rom: 1000, Lan: 100, OSystem: "Ubuntu 18 LTS"},
+		models.VirtualMachine{Id: 1, Cpu: "RYZEN 7 5800X3D", Ram: 64, Rom: 6000, Lan: 1000, OSystem: "Ubuntu 18 LTS"},
+		models.VirtualMachine{Id: 2, Cpu: "INTEL CORE i5 12600k", Ram: 16, Rom: 1000, Lan: 100, OSystem: "Fedora 19"},
+		models.VirtualMachine{Id: 3, Cpu: "RYZEN 3 3200u", Ram: 32, Rom: 1000, Lan: 100, OSystem: "CentOS 19"},
+		models.VirtualMachine{Id: 4, Cpu: "INTEL XEON E5", Ram: 8, Rom: 10000, Lan: 1000, OSystem: "WindowsServer 2016"},
 	}
 	paramVmId := c.Param("vm_id")
 	vmId, err := strconv.Atoi(paramVmId)

@@ -5,7 +5,9 @@ import (
 	"vm_stats_api/pkg/handlers"
 )
 
-func IncludeAPIRouters(router *gin.Engine) {
+func SetupRouters() *gin.Engine {
+	router := gin.Default()
+
 	api := router.Group("/api")
 	{
 		api.GET("/health", handlers.HealthCheck)
@@ -19,5 +21,7 @@ func IncludeAPIRouters(router *gin.Engine) {
 	{
 		apiUsers.GET("/")
 	}
+
+	return router
 
 }
